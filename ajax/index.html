@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ie xml http test</title>
+</head>
+<body>
+	<script>
+	var httpRequest;
+		function makeRequest(url){
+			httpRequest = new XMLHttpRequest();
+			if(!httpRequest){
+				alert('can not create an XMLHttpRequest instance, Maybe you should check your browser version');
+				return false;
+			}
+			httpRequest.onreadystatechange = alertContents;
+			httpRequest.open('GET',url,true);
+			httpRequest.send();
+		}
+		function alertContents(){
+			XMLHttpRequest.DONE = 4;
+			try {
+				if(httpRequest.readyState === XMLHttpRequest.DONE){
+					if(httpRequest.status === 200){
+					var person = JSON.parse(httpRequest.responseText);
+					console.log(person);
+					}else{
+						console.error('There was a problem with the request')
+					}
+				}
+			}catch(e){
+				console.error('Caught Exception:' + e.description);
+			}
+		}
+		makeRequest('test.json')
+	</script>
+</body>
+</html>
